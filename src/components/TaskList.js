@@ -10,11 +10,11 @@ class TaskList extends React.Component {
   displayTask(task) {
     return <li
       className="font-weight-bold"
-      key={`${task}-key`}
+      key={`${task.id}`}
       onClick={this.finishTask}
       title="Click to finish this task"
     >
-      {task}
+      {task.title}
     </li>
   };
 
