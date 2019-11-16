@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import TaskList from "./components/TaskList";
+import Loader from "./components/Loader";
 
 const userId = 1; // We'll be using a const ID for the data fetches (for testing purposes)
 const isTodoCompleted = false; // The Todos will be uncompleted by default
@@ -10,24 +11,37 @@ class TaskApp extends React.Component {
     super(props);
     this.state = {
       items: [],
-      task: ''
+      task: '',
+      isLoaderHidden: true
     };
 
     this.onInputChange = this.onInputChange.bind(this);
     this.addTask = this.addTask.bind(this);
     this.fetchTaskAdd = this.fetchTaskAdd.bind(this);
+    this.showLoader = this.showLoader.bind(this);
+    this.hideLoader = this.hideLoader.bind(this);
   }
 
   componentDidMount() {
+    this.showLoader();
     this.fetchTasks();
   }
+
+  showLoader() {
+    this.setState({isLoaderHidden: false});
+  };
+
+  hideLoader() {
+    this.setState({isLoaderHidden: true});
+  };
 
   fetchTasks() {
     return fetch('https://jsonplaceholder.typicode.com/todos?userId=1')
       .then(response => response.json())
       .then((tasks) => {
-        this.setState({items: tasks})
+        this.setState({items: tasks});
       })
+      .then(this.hideLoader)
       .catch(console.log);
   }
 
@@ -49,6 +63,7 @@ class TaskApp extends React.Component {
           items: this.state.items.concat(task)
         });
       })
+      .then(this.hideLoader)
       .catch(console.log);
   };
 
@@ -58,6 +73,7 @@ class TaskApp extends React.Component {
     const taskInput = document.getElementById('task-input');
 
     if (this.state.task) {
+      this.showLoader();
       this.fetchTaskAdd();
 
       this.setState({
@@ -79,6 +95,8 @@ class TaskApp extends React.Component {
       <div className="task-app container-fluid">
         <div className="container p-5">
           <h1>My tasks</h1>
+
+          <Loader isLoaderHidden={this.state.isLoaderHidden}/>
 
           <form className="form-inline mb-5 mt-5" onSubmit={this.addTask}>
             <input
