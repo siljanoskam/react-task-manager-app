@@ -5,21 +5,41 @@ class TaskList extends React.Component {
     super(props);
 
     this.displayTask = this.displayTask.bind(this);
+    this.fetchCompleteTask = this.fetchCompleteTask.bind(this);
+    this.finishTask = this.finishTask.bind(this);
   }
 
   displayTask(task) {
     return <li
-      className="font-weight-bold"
-      key={`${task}-key`}
+      className={`font-weight-bold ${task.completed ? 'strikethrough' : ''}`}
+      key={`${task.id}`}
       onClick={this.finishTask}
       title="Click to finish this task"
+      id={task.id}
     >
-      {task}
+      {task.title}
     </li>
   };
 
+  fetchCompleteTask(selectedTask) {
+    return fetch(`https://jsonplaceholder.typicode.com/todos/${selectedTask.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        completed: true
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then(() => {
+        selectedTask.classList.add('strikethrough')
+      })
+      .catch(console.log);
+  };
+
   finishTask(event) {
-    event.target.classList.add('strikethrough');
+    const selectedTask = event.currentTarget;
+    this.fetchCompleteTask(selectedTask);
   };
 
   render() {
