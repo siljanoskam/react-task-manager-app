@@ -5,7 +5,7 @@ class TaskList extends React.Component {
     super(props);
 
     this.displayTask = this.displayTask.bind(this);
-    this.fetchCompleteTask = this.fetchCompleteTask.bind(this);
+    this.updateTaskStatus = this.updateTaskStatus.bind(this);
     this.finishTask = this.finishTask.bind(this);
   }
 
@@ -21,7 +21,7 @@ class TaskList extends React.Component {
     </li>
   };
 
-  fetchCompleteTask(selectedTask) {
+  updateTaskStatus(selectedTask) {
     return fetch(`https://jsonplaceholder.typicode.com/todos/${selectedTask.id}`, {
       method: 'PUT',
       body: JSON.stringify({
@@ -39,7 +39,7 @@ class TaskList extends React.Component {
 
   finishTask(event) {
     const selectedTask = event.currentTarget;
-    this.fetchCompleteTask(selectedTask);
+    this.updateTaskStatus(selectedTask);
   };
 
   render() {
