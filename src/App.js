@@ -17,7 +17,7 @@ class TaskApp extends React.Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.addTask = this.addTask.bind(this);
-    this.fetchTaskAdd = this.fetchTaskAdd.bind(this);
+    this.storeTask = this.storeTask.bind(this);
     this.showLoader = this.showLoader.bind(this);
     this.hideLoader = this.hideLoader.bind(this);
   }
@@ -45,7 +45,7 @@ class TaskApp extends React.Component {
       .catch(console.log);
   }
 
-  fetchTaskAdd() {
+  storeTask() {
     return fetch('https://jsonplaceholder.typicode.com/todos', {
       method: 'POST',
       body: JSON.stringify({
@@ -74,7 +74,7 @@ class TaskApp extends React.Component {
 
     if (this.state.task) {
       this.showLoader();
-      this.fetchTaskAdd();
+      this.storeTask();
 
       this.setState({
         task: ''
