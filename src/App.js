@@ -11,29 +11,25 @@ class TaskApp extends React.Component {
     super(props);
     this.state = {
       items: [],
-      task: '',
-      isLoaderHidden: true
+      task: ''
     };
+
+    this.taskInput = React.createRef();
+    this.loaderInstance = React.createRef();
 
     this.onInputChange = this.onInputChange.bind(this);
     this.addTask = this.addTask.bind(this);
     this.storeTask = this.storeTask.bind(this);
-    this.showLoader = this.showLoader.bind(this);
-    this.hideLoader = this.hideLoader.bind(this);
   }
 
   componentDidMount() {
-    this.showLoader();
+    this.handleLoader(true);
     this.fetchTasks();
   }
 
-  showLoader() {
-    this.setState({isLoaderHidden: false});
-  };
-
-  hideLoader() {
-    this.setState({isLoaderHidden: true});
-  };
+  handleLoader(status = false) {
+    this.loaderInstance.current.updateLoaderStatus(status);
+  }
 
   fetchTasks() {
     return fetch('https://jsonplaceholder.typicode.com/todos?userId=1')
@@ -41,7 +37,9 @@ class TaskApp extends React.Component {
       .then((tasks) => {
         this.setState({items: tasks});
       })
-      .then(this.hideLoader)
+      .then(() => {
+        this.handleLoader(false)
+      })
       .catch(console.log);
   }
 
@@ -63,17 +61,17 @@ class TaskApp extends React.Component {
           items: this.state.items.concat(task)
         });
       })
-      .then(this.hideLoader)
+      .then(() => {
+        this.handleLoader(false)
+      })
       .catch(console.log);
   };
 
   addTask(event) {
     event.preventDefault();
 
-    const taskInput = document.getElementById('task-input');
-
     if (this.state.task) {
-      this.showLoader();
+      this.handleLoader(true);
       this.storeTask();
 
       this.setState({
@@ -83,7 +81,7 @@ class TaskApp extends React.Component {
       alert('The task cannot be empty. Please enter a task.')
     }
 
-    taskInput.focus();
+    this.taskInput.current.focus();
   }
 
   onInputChange(event) {
@@ -96,7 +94,7 @@ class TaskApp extends React.Component {
         <div className="container p-5">
           <h1>My tasks</h1>
 
-          <Loader isLoaderHidden={this.state.isLoaderHidden}/>
+          <Loader ref={this.loaderInstance}/>
 
           <form className="form-inline mb-5 mt-5" onSubmit={this.addTask}>
             <input
@@ -106,6 +104,7 @@ class TaskApp extends React.Component {
               onChange={this.onInputChange}
               value={this.state.task}
               autoComplete="off"
+              ref={this.taskInput}
             />
             <button className="btn btn-info ml-1 font-weight-bold">
               Add Task
