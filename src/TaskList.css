@@ -1,0 +1,12 @@
+li {
+  cursor: pointer;
+}
+
+.task-list {
+  color: #282c34;
+  list-style: circle;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
