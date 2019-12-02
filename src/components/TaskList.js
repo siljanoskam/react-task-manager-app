@@ -6,7 +6,6 @@ class TaskList extends React.Component {
     super(props);
 
     this.displayTask = this.displayTask.bind(this);
-    this.updateTaskStatus = this.updateTaskStatus.bind(this);
     this.finishTask = this.finishTask.bind(this);
   }
 
