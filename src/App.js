@@ -32,7 +32,7 @@ class TaskApp extends React.Component {
   }
 
   fetchTasks() {
-    return fetch('https://jsonplaceholder.typicode.com/todos?userId=1')
+    return fetch(`https://jsonplaceholder.typicode.com/todos?userId=${userId}`)
       .then(response => response.json())
       .then((tasks) => {
         this.setState({items: tasks});
