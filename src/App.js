@@ -40,7 +40,7 @@ class TaskApp extends React.Component {
       .then(() => {
         this.handleLoader(false)
       })
-      .catch(console.log);
+      .catch(console.error);
   }
 
   storeTask() {
@@ -64,7 +64,7 @@ class TaskApp extends React.Component {
       .then(() => {
         this.handleLoader(false)
       })
-      .catch(console.log);
+      .catch(console.error);
   };
 
   addTask(event) {

@@ -34,7 +34,7 @@ class TaskList extends React.Component {
       .then(() => {
         selectedTask.classList.add('strikethrough')
       })
-      .catch(console.log);
+      .catch(console.error);
   };
 
   finishTask(event) {
