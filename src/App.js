@@ -28,7 +28,7 @@ class TaskApp extends React.Component {
   }
 
   handleLoader(status = false) {
-    this.loaderInstance.current.updateLoaderStatus(status);
+    this.loaderInstance.current.updateLoaderVisibility(status);
   }
 
   fetchTasks() {
