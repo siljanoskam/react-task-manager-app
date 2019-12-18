@@ -1,6 +1,6 @@
 # README
 
-For a detailed tutorial on how to do this app, you can visit: 
+For a detailed tutorial on how was this app done, you can visit: 
 
 https://medium.com/javascript-in-plain-english/how-to-build-a-simple-task-manager-with-react-8895d4526b2e
 
